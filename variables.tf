@@ -1,5 +1,5 @@
 # To pretify the  use of this module externally we use maps. Downside of map-usage is that default variables are lost when only a part
-# of the map is being defined. This is mitigated by using an extra set of default_* variables 
+# of the map is being defined. This is mitigated by using an extra set of default_* variables
 
 variable "create" {
   default = true
@@ -16,7 +16,7 @@ variable "fargate_enabled" {
   default = false
 }
 
-# With awsvpc_enabled the network_mode for the ECS task definition will be awsvpc, defaults to bridge 
+# With awsvpc_enabled the network_mode for the ECS task definition will be awsvpc, defaults to bridge
 variable "awsvpc_enabled" {
   default = false
 }
@@ -88,13 +88,13 @@ locals {
     # route53_zone_id is the zone to add a subdomain to
     route53_zone_id = ""
 
-    # health_uri is the health uri to be checked by the ALB 
+    # health_uri is the health uri to be checked by the ALB
     health_uri = "/ping"
 
     # health_matcher sets the expected HTTP status for the health check to be marked healthy
     health_matcher = "200"
 
-    # unhealthy_threshold is the health uri to be checked by the ALB 
+    # unhealthy_threshold is the health uri to be checked by the ALB
     unhealthy_threshold = "3"
 
     # Do we create listener rules for https
@@ -143,8 +143,8 @@ variable "capacity_properties" {
 
 locals {
   capacity_properties_default {
-    # desired_capacity is the desired amount of tasks for a service, when autoscaling is used desired_capacity is only used initially 
-    #after that autoscaling determins the amount of tasks 
+    # desired_capacity is the desired amount of tasks for a service, when autoscaling is used desired_capacity is only used initially
+    #after that autoscaling determins the amount of tasks
     desired_capacity = "2"
 
     # desired_min_capacity is used when autoscaling is used, it sets the minimum of tasks to be available for this service
@@ -185,7 +185,7 @@ variable "live_task_lookup_type" {
 # image_url defines the docker image location
 variable "bootstrap_container_image" {}
 
-# Container name 
+# Container name
 variable "container_name" {
   default = "app"
 }
@@ -196,7 +196,7 @@ variable "container_cpu" {}
 # container_memory  defines the hard memory limit of the container
 variable "container_memory" {}
 
-# 
+#
 variable "container_docker_labels" {
   default = {}
 }
@@ -227,14 +227,14 @@ variable "host_port" {
 #  [{
 #     # type is the metric the metric being used for the service
 #     type               = "CPUUtilization"
-#     
+#
 #     # direction defines the direction of the scaling, up means more tasks, down is less tasks
 #     direction          = "up"
 #
 #     # evaluation_periods how many observation points are needed for a scaling decision
 #     evaluation_periods = "2"
 #
-#     
+#
 #     # observation_period is the number of seconds one statistic is measured
 #     observation_period = "300"
 #
@@ -249,7 +249,7 @@ variable "host_port" {
 #
 #     # Adjustment_type defines the type of adjustment, can either be absolute or relative : ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
 #     adjustment_type    = "ChangeInCapacity"
-# 
+#
 #     # scaling_adjustment defines the amount to scale, can be a postive or negative number or percentage
 #     scaling_adjustment = "1"
 #   },]
@@ -359,8 +359,8 @@ variable "mountpoints" {
 #  [{
 #     # name of the scheduled task
 #     job_name  = "vacuum_db"
-#     
-#     # expression defined in 
+#
+#     # expression defined in
 #     # http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
 #     schedule_expression  = "cron(0 12 * * ? *)"
 #
@@ -406,4 +406,14 @@ variable "tags" {
   description = "A map of tags to apply to all taggable resources"
   type        = "map"
   default     = {}
+}
+
+variable "container_entrypoint" {
+  description = "The entry point that is passed to the container."
+  default     = [""]
+}
+
+variable "container_command" {
+  description = "The command that is passed to the container."
+  default     = [""]
 }

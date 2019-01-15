@@ -10,7 +10,7 @@ locals {
 }
 
 #
-# The iam sub-module creates the IAM resources needed for the ECS Service. 
+# The iam sub-module creates the IAM resources needed for the ECS Service.
 #
 module "iam" {
   source = "./modules/iam/"
@@ -80,7 +80,7 @@ module "alb_handling" {
   # nlb_listener_port sets the listener port of the nlb listener
   nlb_listener_port = "${lookup(local.load_balancing_properties,"nlb_listener_port")}"
 
-  # target_group_port sets the port of the target group, by default 80 
+  # target_group_port sets the port of the target group, by default 80
   target_group_port = "${lookup(local.load_balancing_properties,"target_group_port")}"
 
   # unhealthy_threshold defines the threashold for the target_group after which a service is seen as unhealthy.
@@ -186,6 +186,10 @@ module "container_definition" {
 
   healthcheck = "${var.container_healthcheck}"
 
+  container_entrypoint = "${var.container_entrypoint}"
+
+  container_command = "${var.container_command}"
+
   log_options = {
     "awslogs-region"        = "${var.region}"
     "awslogs-group"         = "${element(concat(aws_cloudwatch_log_group.app.*.name, list("")), 0)}"
@@ -195,7 +199,7 @@ module "container_definition" {
 
 #
 # The ecs_task_definition sub-module creates the ECS Task definition
-# 
+#
 module "ecs_task_definition" {
   source = "./modules/ecs_task_definition/"
 
@@ -208,7 +212,7 @@ module "ecs_task_definition" {
 
   container_definitions = "${module.container_definition.json}"
 
-  # awsvpc_enabled sets if the ecs task definition is awsvpc 
+  # awsvpc_enabled sets if the ecs task definition is awsvpc
   awsvpc_enabled = "${var.awsvpc_enabled}"
 
   # fargate_enabled sets if the ecs task definition has launch_type FARGATE
@@ -229,7 +233,7 @@ module "ecs_task_definition" {
   # Launch type, either EC2 or FARGATE
   launch_type = "${local.launch_type}"
 
-  # region, needed for Logging.. 
+  # region, needed for Logging..
   region = "${var.region}"
 
   # a Docker volume to add to the task
@@ -264,7 +268,7 @@ module "ecs_task_definition_selector" {
 
 #
 # The ecs_service sub-module creates the ECS Service
-# 
+#
 module "ecs_service" {
   source = "./modules/ecs_service/"
 
@@ -309,7 +313,7 @@ module "ecs_service" {
   # with_placement_strategy, if true spread tasks over ECS Cluster based on AZ, Instance-id, Memory
   with_placement_strategy = "${var.with_placement_strategy}"
 
-  # container_name sets the name of the container, this is used for the load balancer section inside the ecs_service to connect to a container_name defined inside the 
+  # container_name sets the name of the container, this is used for the load balancer section inside the ecs_service to connect to a container_name defined inside the
   # task definition, container_port sets the port for the same container.
   container_name = "${var.container_name}"
 
