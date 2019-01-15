@@ -186,9 +186,9 @@ module "container_definition" {
 
   healthcheck = "${var.container_healthcheck}"
 
-  container_entrypoint = "${var.container_entrypoint}"
+  entrypoint = "${var.container_entrypoint}"
 
-  container_command = "${var.container_command}"
+  command = "${var.container_command}"
 
   log_options = {
     "awslogs-region"        = "${var.region}"
